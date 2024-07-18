@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import tabula
-import os
 
 # Ensure JAVA_HOME and PATH are correctly set
 
@@ -26,25 +25,36 @@ def plot_comparison(df1, df2):
 
     # Plot the graphs
     for unit, group in grouped:
-        # Further split the groups based on value ranges if needed
-        # For simplicity, let's split if the range of values is greater than 100
-        if group['VALUE_1'].max() - group['VALUE_1'].min() > 100:
+        # Calculate total values for each TEST NAME
+        group['TOTAL_1'] = group['VALUE_1'].fillna(0) + group['VALUE_2'].fillna(0)
+        group['TOTAL_2'] = group['VALUE_1_2'].fillna(0)
+        
+        # Check if there's a significant range in values
+        if group['TOTAL_1'].max() - group['TOTAL_1'].min() > 100:
             # Split into two subgroups based on median
-            median = group['VALUE_1'].median()
-            group1 = group[group['VALUE_1'] <= median]
-            group2 = group[group['VALUE_1'] > median]
+            median = group['TOTAL_1'].median()
+            group1 = group[group['TOTAL_1'] <= median]
+            group2 = group[group['TOTAL_1'] > median]
 
             fig, axes = plt.subplots(1, 2, figsize=(12, 6))
-            group1.plot(x='TEST NAME', y=['VALUE_1', 'VALUE_2'], kind='bar', ax=axes[0], title=f"{unit} (Lower Range)")
-            group2.plot(x='TEST NAME', y=['VALUE_1', 'VALUE_2'], kind='bar', ax=axes[1], title=f"{unit} (Upper Range)")
+            group1_plot = group1.plot(x='TEST NAME', y=['TOTAL_1', 'TOTAL_2'], kind='bar', ax=axes[0], title=f"{unit} (Lower Range)")
+            group2_plot = group2.plot(x='TEST NAME', y=['TOTAL_1', 'TOTAL_2'], kind='bar', ax=axes[1], title=f"{unit} (Upper Range)")
+            annotate_bars(group1_plot)
+            annotate_bars(group2_plot)
         else:
             fig, ax = plt.subplots(figsize=(12, 6))
-            group.plot(x='TEST NAME', y=['VALUE_1', 'VALUE_2'], kind='bar', title=unit, ax=ax)
+            group_plot = group.plot(x='TEST NAME', y=['TOTAL_1', 'TOTAL_2'], kind='bar', title=unit, ax=ax)
+            annotate_bars(group_plot)
 
-        plt.ylabel('Value')
+        plt.ylabel('Total Value')
         plt.xticks(rotation=45, ha='right')
         plt.tight_layout()
         st.pyplot(fig)
+
+def annotate_bars(plot):
+    for p in plot.patches:
+        plot.annotate(f"{p.get_height():.2f}", (p.get_x() + p.get_width() / 2., p.get_height()),
+                      ha='center', va='center', xytext=(0, 10), textcoords='offset points')
 
 # Streamlit app
 st.title("PDF Report Comparison")
