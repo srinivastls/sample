@@ -1,1 +1,1 @@
-openjdk-8-jdk
+-y openjdk-8-jdk
