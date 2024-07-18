@@ -2,4 +2,4 @@ streamlit
 pandas
 matplotlib
 tabula-py
-pyjnius
+jpype1
