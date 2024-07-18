@@ -3,11 +3,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import tabula
 import os
-from jnius import autoclass
 
-# Set up pyjnius to use the JVM bundled with it
-JavaSystem = autoclass('java.lang.System')
-JavaSystem.setProperty('java.home', '/usr/lib/jvm/java-8-openjdk-amd64')
+# Ensure JAVA_HOME and PATH are correctly set
+os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"
+os.environ["PATH"] = os.environ["PATH"] + ":" + os.path.join(os.environ["JAVA_HOME"], "bin")
 
 def extract_data(uploaded_file):
     tables = tabula.read_pdf(uploaded_file, pages="all", multiple_tables=True)

@@ -10,6 +10,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Set up Java
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt' # See 'Supported distributions' for available options
+        java-version: '8'
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -22,9 +28,6 @@ jobs:
 
     - name: Run setup script
       run: bash setup.sh
-
-    - name: Set JAVA_HOME
-      run: echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $GITHUB_ENV
 
     - name: Deploy to Streamlit
       run: streamlit run app.py
