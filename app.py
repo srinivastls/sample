@@ -4,10 +4,9 @@ import matplotlib.pyplot as plt
 import tabula
 import os
 
-
-
 # Set up JAVA_HOME environment variable
 os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"
+os.environ["PATH"] = os.environ["PATH"] + ":" + os.path.join(os.environ["JAVA_HOME"], "bin")
 
 def extract_data(uploaded_file):
     tables = tabula.read_pdf(uploaded_file, pages="all", multiple_tables=True)

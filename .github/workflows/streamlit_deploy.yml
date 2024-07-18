@@ -23,6 +23,8 @@ jobs:
     - name: Run setup script
       run: bash setup.sh
 
+    - name: Set JAVA_HOME
+      run: echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $GITHUB_ENV
+
     - name: Deploy to Streamlit
-      run: |
-        streamlit run app.py
+      run: streamlit run app.py
