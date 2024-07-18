@@ -26,8 +26,8 @@ def plot_comparison(df1, df2):
     # Plot the graphs
     for unit, group in grouped:
         # Calculate total values for each TEST NAME
-        group['TOTAL_1'] = group['VALUE_1'].fillna(0) + group['VALUE_2'].fillna(0)
-        group['TOTAL_2'] = group['VALUE_1_2'].fillna(0)
+        group['TOTAL_1'] = group['VALUE_1'].fillna(0) 
+        group['TOTAL_2'] = group['VALUE_2'].fillna(0)
         
         # Check if there's a significant range in values
         if group['TOTAL_1'].max() - group['TOTAL_1'].min() > 100:
