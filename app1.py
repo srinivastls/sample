@@ -5,7 +5,7 @@ import tabula
 
 # Function to extract data from PDF
 def extract_data(uploaded_file):
-    tables = tabula.read_pdf(uploaded_file, pages="all", multiple_tables=True)
+    tables = tabula.read_do(uploaded_file, pages="all", multiple_tables=True)
     dfs = []
     if tables:
         for df in tables:
