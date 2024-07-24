@@ -12,6 +12,7 @@ def extract_data(uploaded_file):
             li = list(df.columns)
             if ("TEST NAME" in li and "VALUE" in li) or ("Test Description" in li and " Value Observed" in li):
                 dfs.append(df)
+            st.write(df)
     return pd.concat(dfs) if dfs else None
 
 # Function to plot comparison graphs
