@@ -9,6 +9,7 @@ def extract_data(uploaded_file):
     dfs = []
     if tables:
         for df in tables:
+            st.write(df)
             li = list(df.columns)
             if "TEST NAME" in li and "VALUE" in li:
                 dfs.append(df)
